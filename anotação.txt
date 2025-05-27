@@ -1,0 +1,3 @@
+aula da criação de autencicação com jwt com usuários diferentes com seus niveis de permissões
+
+fazer dowload no pc: vscode, postgress, bash, sequelize, utilizar supabase
