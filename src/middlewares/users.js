@@ -19,4 +19,19 @@ async function validateCreateUser(req, res, next) {
             email: email
         }
     })
+
+    if(existUser){
+        return res.status(400).send({
+            error: "Usuário já cadastrado"
+        })
+    }
+
+    const hashedPassword = await bcrypt.hash(
+        req.body.password,
+        10 // número de rounds de criptografia
+    )
+
+    req.body.password = hashedPassword;
+
+    next();
 }

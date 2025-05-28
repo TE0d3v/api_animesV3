@@ -3,11 +3,6 @@ const bcrypt = require('bcrypt');
 
 // criptografia simples
 async function createUser(req, res) {
-    const hashedPassword = await bcrypt.hash(
-        req.body.password,
-        10 // número de rounds de criptografia
-    )
-
     try {
         await Users.create({
             name: req.body.name,
