@@ -1,4 +1,5 @@
 const { Users } = require("../models");
+const bcrypt = require("bcrypt");
 
 async function validateCreateUser(req, res, next) {
     const {name, email, password} = req.body;// Verifica se os campos obrigatórios estão presentes chamado de desestruturação
@@ -35,3 +36,5 @@ async function validateCreateUser(req, res, next) {
 
     next();
 }
+
+module.exports = {validateCreateUser};
