@@ -1,4 +1,4 @@
-const { User } = require('../models');
+const { Users } = require('../models');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
@@ -10,7 +10,7 @@ async function login(req, res) {
 
     try {
         // verifica se o usuário existe
-        const user = await User.findOne({
+        const user = await Users.findOne({
             where: { email }
         })
         if (!user) {
@@ -28,13 +28,19 @@ async function login(req, res) {
         // Gera o token JWT
         const token = jwt.sign(
             {id: user.id, email: user.email},
-            process.env.JWT_SECRET, // Chave secreta do JWT
-            { expiresIn: process.env.JWT_EXPIRES_IN } // Expiração do token
+            process.env.JWT_SECRET, //criptografa Chave secreta do JWT
+            { expiresIn: process.env.JWT_EXPIRES_IN } // Expiração do token em um dia
         )
         return res.status(200).send({token})
     } catch (error) {
         return res.status(500).send({
-            error: "Erro ao realizar login",
+            error: error.message
         });
     }
 }
+
+module.exports = {
+    login
+}
+// O código acima define uma função de login que autentica um usuário com base no email e senha fornecidos.
+// Ele verifica se o usuário existe, compara a senha fornecida com a senha armazenada no banco de dados usando bcrypt, e se a autenticação for bem-sucedida, gera um token JWT para o usuário. Se ocorrer algum erro durante o processo, ele retorna uma resposta de erro apropriada.
