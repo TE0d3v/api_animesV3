@@ -39,8 +39,15 @@ async function login(req, res) {
     }
 }
 
+function hartBeat(req, res){
+    return res.status(200).send({
+        message: "Token válido"
+    });
+}
+
 module.exports = {
-    login
+    login,
+    hartBeat
 }
 // O código acima define uma função de login que autentica um usuário com base no email e senha fornecidos.
 // Ele verifica se o usuário existe, compara a senha fornecida com a senha armazenada no banco de dados usando bcrypt, e se a autenticação for bem-sucedida, gera um token JWT para o usuário. Se ocorrer algum erro durante o processo, ele retorna uma resposta de erro apropriada.
