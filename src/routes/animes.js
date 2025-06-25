@@ -5,4 +5,6 @@ const middlewareToken = require('../middlewares/authToken');
 
 router.post('/animes', middlewareToken.authToken, animesController.createAnime);
 
+router.get('/animes', middlewareToken.authToken, animesController.getAnimes)
+
 module.exports = router;

@@ -11,6 +11,19 @@ async function createAnime(req, res) {
     }
 }
 
+async function getAnimes(req, res) {
+    try {
+        const animes = await Animes.findAll();
+        // res.send(animes); já é status 200 por padrão
+        res.send(animes)
+    }catch (error){
+        return res.status(500).send({
+            error: error.message
+        })
+    }
+}
+
 module.exports = {
-    createAnime
+    createAnime,
+    getAnimes
 }
