@@ -23,6 +23,10 @@ const Users = sequelize.define('Users', {
         type: DataTypes.STRING,
         allowNull: false,
         // poderia ser adicionado um validate para verificar a força da senha
+    },
+    role: {
+        type: DataTypes.ENUM('admin', 'user'),
+        defaultValue: 'user'
     }
 
 })
