@@ -1,22 +1,38 @@
 const jwt = require('jsonwebtoken');
+const { Users } = require('../models');
 require('dotenv').config();
 
-function authToken(req, res, next) {
+async function authToken(req, res, next) {
     const token = req.headers.authorization;
-    if (!token) {
+
+    if (!token){
         return res.status(401).send({
             error: 'No token provided'
         })
     }
 
     try {
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        req.user = decoded; // Armazena os dados do usuário decodificado na requisição
-        next(); // Chama o próximo middleware ou rota
+        const decoded = jwt.verify(token, process.env.JWT_SECRET)
+        
+        const user = await Users.findOne({
+            where: {
+                id: decoded.id
+            }
+        })
+
+        if(!user){
+            return res.status(401).send({
+                error: 'Invalid token'
+            })
+        }
+
+        req.user = user;
+
+        next()
     } catch (error) {
         return res.status(401).send({
             error: 'Invalid token'
-        });
+        })
     }
 }
 

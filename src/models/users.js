@@ -13,23 +13,20 @@ const Users = sequelize.define('Users', {
     },
     email: {
         type: DataTypes.STRING,
+        unique: true,
         allowNull: false,
         validate: {
             isEmail: true
-        },
-        unique: true // garante que o email seja único
+        }
     },
     password: {
         type: DataTypes.STRING,
-        allowNull: false,
-        // poderia ser adicionado um validate para verificar a força da senha
+        allowNull: false
     },
     role: {
         type: DataTypes.ENUM('admin', 'user'),
         defaultValue: 'user'
     }
-
 })
 
 module.exports = Users;
-// Sincroniza o modelo com o banco de dados

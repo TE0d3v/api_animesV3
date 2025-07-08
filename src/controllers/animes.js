@@ -3,6 +3,12 @@ const { Animes } = require('../models');
 async function createAnime(req, res) {
     const anime = req.body;
 
+    if(req.user.role !== 'admin'){
+        return res.status(403).send({
+            error: 'Não autorizado'
+        })
+    }
+
     try {
         const animeCreated = await Animes.create(anime);
         res.status(201).send(animeCreated);
@@ -14,9 +20,9 @@ async function createAnime(req, res) {
 async function getAnimes(req, res) {
     try {
         const animes = await Animes.findAll();
-        // res.send(animes); já é status 200 por padrão
-        res.send(animes)
-    }catch (error){
+
+        return res.send(animes)
+    } catch (error) {
         return res.status(500).send({
             error: error.message
         })
