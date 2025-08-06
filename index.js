@@ -3,6 +3,7 @@ const cors = require('cors')
 const animesRoutes = require('./src/routes/animes');
 const usersRoutes = require('./src/routes/users');
 const authRoutes = require('./src/routes/auth');
+const messagesRoutes = require('./src/routes/messages');
 const Sentry = require('./src/config/sentry');
 require('./src/models');
 
@@ -21,6 +22,7 @@ app.use(express.json());
 app.use(animesRoutes);
 app.use(usersRoutes);
 app.use(authRoutes)
+app.use(messagesRoutes);
 
 app.get("/debug", function mainHandler(req, res) {
     throw new Error("My first Sentry error!");
