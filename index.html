@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Chat Grupo</title>
+</head>
+<body>
+  <h2>Chat Grupo</h2>
+  <input id="group" placeholder="Grupo ID" />
+  <input id="name" placeholder="Seu nome" />
+  <input id="msg" placeholder="Mensagem" />
+  <button onclick="sendMessage()">Enviar</button>
+  <ul id="chat"></ul>
+
+  <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+  <script>
+    const socket = io('http://localhost:4888');
+    
+    document.getElementById('group').addEventListener('change', (e) => {
+      socket.emit('joinGroup', e.target.value);
+    });
+
+    socket.on('recieveMessage', (data) => {
+      const li = document.createElement('li');
+      li.textContent = `${data.sender}: ${data.message}`;
+      document.getElementById('chat').appendChild(li);
+    });
+
+    function sendMessage() {
+      const group = document.getElementById('group').value;
+      const name = document.getElementById('name').value;
+      const msg = document.getElementById('msg').value;
+
+      socket.emit('sendMessage', {
+        groupId: group,
+        sender: name,
+        message: msg
+      });
+
+      document.getElementById('msg').value = '';
+    }
+  </script>
+</body>
+</html>

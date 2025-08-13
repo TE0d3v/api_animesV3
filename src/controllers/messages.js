@@ -8,6 +8,25 @@ async function createMessage(req, res) {
     }
 }
 
+async function getMessages(req, res){
+    const { groupId } = req.params;
+
+    try{
+        const messages = await Messages.findAll({
+            where: {
+                groupId: groupId,
+            }
+        })
+
+        return res.send(messages)
+    }catch (error){
+        return res.status(500).send({
+            error: error.message
+        })
+    }
+}
+
 module.exports = {
-    createMessage
+    createMessage,
+    getMessages
 }
