@@ -2,6 +2,9 @@ const app = require('./src/app');
 const http = require('http');
 const { Server } = require('socket.io');
 const chatSocket = require('./src/sockets/chat');
+const swaggerUi = require('swagger-ui-express');
+const swaggerFile = require('./swagger-output.json');
+const bodyParser = require('body-parser');
 
 
 const port = 4888;
@@ -12,6 +15,10 @@ const io = new Server(server, {
         methods: ["GET", "POST"]
     }
 })
+
+/* Middlewares */
+app.use(bodyParser.json());
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerFile));
 
 io.on('connection', (socket) => {
     console.log('Novo cliente conectado:', socket.id)
